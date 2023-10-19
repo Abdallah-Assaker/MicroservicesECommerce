@@ -18,7 +18,7 @@ public static class CatalogContextSeed
     {
         return new List<Product>
         {
-            new Product
+            new()
             {
                 Id = "5f43f0f4b6b4a9f8a4e7a6b1",
                 Name = "IPhone X",
@@ -30,7 +30,7 @@ public static class CatalogContextSeed
                 Price = 950.00M,
                 Category = "Smart Phone"
             },
-            new Product
+            new()
             {
                 Id = "5f43f0f4b6b4a9f8a4e7a6b2",
                 Name = "Samsung 10",
@@ -42,7 +42,7 @@ public static class CatalogContextSeed
                 Price = 840.00M,
                 Category = "Smart Phone"
             },
-            new Product
+            new()
             {
                 Id = "5f43f0f4b6b4a9f8a4e7a6b3",
                 Name = "Huawei Plus",
@@ -54,7 +54,7 @@ public static class CatalogContextSeed
                 Price = 650.00M,
                 Category = "White Appliances"
             },
-            new Product
+            new()
             {
                 Id = "5f43f0f4b6b4a9f8a4e7a6b4",
                 Name = "Xiaomi Mi 9",
@@ -66,7 +66,7 @@ public static class CatalogContextSeed
                 Price = 470.00M,
                 Category = "White Appliances"
             },
-            new Product
+            new()
             {
                 Id = "5f43f0f4b6b4a9f8a4e7a6b5",
                 Name = "HTC U11+ Plus",
