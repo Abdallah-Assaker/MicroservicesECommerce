@@ -1,14 +1,6 @@
 ﻿version: '3.4'
 
 services:
-  catalog.db:  
-    container_name: catalogDb
-    restart: always
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongo_data:/data/db
-      
   catalog.api:
     container_name: catalog.api
     environment:
@@ -18,6 +10,46 @@ services:
     depends_on: 
         - catalog.db
     ports:
-      - "80:80"
+      - "8000:80"
+      
+  basket.api:
+    container_name: basket.api
+    environment:
+        - ASPNETCORE_ENVIRONMENT=Development
+        - ASPNETCORE_URLS=http://*:80
+        - CacheSettings_ConnectionString=basketDb:6379
+    depends_on:
+        - basket.db
+    ports:
+        - "8001:80"
+          
+  basket.db:
+    container_name: basketDb
+    restart: always
+    ports:
+      - "6379:6379"
+#   volumes:
+#     - redis_data:/data
+        
+  catalog.db:  
+    container_name: catalogDb
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+        
+  mongo-express:
+    container_name: mongo-express
+    environment:
+      - ME_CONFIG_OPTIONS_EDITORTHEME=ambiance
+      - ME_CONFIG_MONGODB_SERVER=catalogdb
+    depends_on:
+      - catalog.db
+    ports:
+      - "8081:8081" 
+
+
+      
         
 

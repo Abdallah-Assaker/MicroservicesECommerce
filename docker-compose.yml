@@ -6,10 +6,25 @@ services:
     build:
       context: .
       dockerfile: Services/Catalog/Catalog.Api/Dockerfile
-
+      
+  basket.api:
+    image: basket.api
+    build:
+      context: .
+      dockerfile: Services/Basket/Basket.Api/Dockerfile
+      
   catalog.db:
       image: mongo
+
+  basket.db:
+      image: redis:alpine
+  
+  mongo-express:
+    image: mongo-express
         
 volumes:
-    mongo_data:
-        driver: local
+  mongo_data:
+      driver: local
+      
+  redis_data:
+      driver: local
