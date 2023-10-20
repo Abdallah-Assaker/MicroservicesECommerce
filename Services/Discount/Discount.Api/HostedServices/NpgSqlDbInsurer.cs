@@ -18,16 +18,15 @@ public class NpgSqlDbInsurer : IHostedService
     {
         _logger.LogInformation("Starting NpgSqlDbInsurer");
         
-        var connectionString = _configuration.GetSection("ConnectionStrings_DefaultConnection").Value;
-        
-        _logger.LogInformation("Connection string: {connectionString}", connectionString);
+        var connectionString = _configuration.GetSection("ConnectionStrings_DefaultConnection").Value
+                               ?? _configuration.GetConnectionString("DefaultConnection")!;
         
         await using var connection = new NpgsqlConnection(connectionString);
         await connection.OpenAsync(cancellationToken);
         
         var textCommand = """
                           CREATE TABLE IF NOT EXISTS Coupon(Id SERIAL PRIMARY KEY,
-                                                          ProductName VARCHAR(24) NOT NULL,
+                                                          ProductId VARCHAR(24) NOT NULL,
                                                           Description TEXT,
                                                           Amount INT)
                           """;
