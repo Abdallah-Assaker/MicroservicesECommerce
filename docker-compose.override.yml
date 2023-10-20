@@ -1,6 +1,4 @@
-﻿version: '3.4'
-
-services:
+﻿services:
   catalog.api:
     container_name: catalog.api
     environment:
@@ -22,6 +20,17 @@ services:
         - basket.db
     ports:
         - "8001:80"
+        
+  discount.api:
+    container_name: discount.api
+    environment:
+        - ASPNETCORE_ENVIRONMENT=Development
+        - ASPNETCORE_URLS=http://*:80
+        - ConnectionStrings_DefaultConnection=server=discount.db;port=5432;database=DiscountDb;user id=postgres;password=postgresAdmin123
+    depends_on:
+        - discount.db
+    ports:
+        - "8002:80"    
           
   basket.db:
     container_name: basketDb
@@ -38,9 +47,21 @@ services:
       - "27017:27017"
     volumes:
       - mongo_data:/data/db
+      
+  discount.db:
+    container_name: discount.db
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgresAdmin123
+      - POSTGRES_DB=DiscountDb
+    volumes:
+      - postgres_data:/var/lib/postgresql/data    
         
-  mongo-express:
-    container_name: mongo-express
+  mongo-monitor:
+    container_name: mongo-monitor
     environment:
       - ME_CONFIG_OPTIONS_EDITORTHEME=ambiance
       - ME_CONFIG_MONGODB_SERVER=catalogdb
@@ -48,6 +69,19 @@ services:
       - catalog.db
     ports:
       - "8081:8081" 
+        
+  postgres-monitor:
+    container_name: postgres-monitor
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=admin1234
+      - PGADMIN_LISTEN_PORT=8088
+    ports:
+        - "8088:8088"
+    volumes:
+      - postgres_monitor_session:/var/lib/pgadmin
+
+  
 
 
       
